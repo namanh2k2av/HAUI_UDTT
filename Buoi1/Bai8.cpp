@@ -17,31 +17,40 @@ void loang(int i, int j){
 		loang(i,j+1);
 }
 
+void show(int n, int m){
+	for(int i = 1 ; i <= n ; ++i){
+		for(int j = 1 ; j <= m ; ++j){
+			cout<<flag[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+    	
+}
+
 int main(){
 	vector<int> ans;
 	int n,m;
 	cin >> n >> m;
-    for(int i = 1 ; i <= n ; ++i)
-    	for(int j = 1 ; j <= m ; ++j) 
+    for(int i = 1 ; i <= n ; i++)
+    	for(int j = 1 ; j <= m ; j++) 
 			cin >> a[i][j];
-	
-    for(int i = 1 ; i <= n ; ++i)
-    	for(int j = 1 ; j <= m ; ++j){
-    		if(a[i][j] == 1 && !flag[i][j]) 
-				loang(i,j);
-		}
 	int dem=0;
-    for(int i = 1 ; i <= n ; ++i){
-    	for(int j = 1 ; j <= m ; ++j){
-    		if(flag[i][j] && flag[i-1][j] || flag[i+1][j] || flag[i][j-1] || flag[i][j+1]){
+	cout<<endl;
+    for(int i = 1 ; i <= n ; i++)
+    	for(int j = 1 ; j <= m ; j++){
+    		if(a[i][j] == 1 && !flag[i][j]) {
+    			loang(i,j);
+    			while(a[i][j+1] == a[i][j]){
+    				j++;
+    				loang(i,j);
+				}
+    				
+    			show(n, m);
+    			cout<<endl;
     			dem++;
 			}
 				
 		}
-	}
-    cout<<dem;		
-//	cout << ans.size() << endl;
-//    sort(ans.begin(), ans.end());
-//    for(int i=0 ; ans.size();i++)
-//		cout << ans[i] << " ";
+	
+    cout<<"So mien lien thong: "<<dem;		
 }
