@@ -28,7 +28,6 @@ void show(int n, int m){
 }
 
 int main(){
-	vector<int> ans;
 	int n,m;
 	cin >> n >> m;
     for(int i = 1 ; i <= n ; i++)
@@ -43,8 +42,7 @@ int main(){
     			while(a[i][j+1] == a[i][j]){
     				j++;
     				loang(i,j);
-				}
-    				
+				}	
     			show(n, m);
     			cout<<endl;
     			dem++;
