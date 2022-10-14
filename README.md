@@ -1,1 +1,2 @@
-# Code thực hành môn: Ứng dụng thuật toán
+# Ứng dụng thuật toán
+Code và tài liệu
