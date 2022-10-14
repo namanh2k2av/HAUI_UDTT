@@ -1,2 +1,2 @@
 # Ứng dụng thuật toán
-Code và tài liệu
+Code thực hành và tài liệu
