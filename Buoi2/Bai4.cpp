@@ -1,58 +1,77 @@
-#include<iostream>
-#define max 1000
+#include<bits/stdc++.h>
 
 using namespace std;
 
 int dem=0;
-struct stack{
-    int e[max];
-    char a[max];
-    char b[max];
-    char c[max];
-    int top;
+struct Call{
+    int n;
+    char a;
+    char b;
+    char c;
 };
 
-void create(stack &s){
-    s.top=-1;
+struct Stack{
+	int top;
+	Call *e;
+};
+
+void init(Stack &s){
+    s.top = -1;
+    s.e = NULL;
 }
 
-int empty(stack s){   
-	return (s.top==-1);
+bool empty(Stack s){   
+	return (s.top == -1);
 }
 
-void push(stack &s, int &x, char &a, char &b, char &c)
-{
-    if (s.top==max-1) exit(0);
-    memcpy(&s.e[++s.top],&x,sizeof(int));
-    memcpy(&s.a[s.top],&a,sizeof(int));
-    memcpy(&s.b[s.top],&b,sizeof(int));
-    memcpy(&s.c[s.top],&c,sizeof(int));
+void push(Stack &s, Call call){
+    if(empty(s)){
+    	s.e = new Call[1];
+	} else {
+		s.e = (Call*) realloc(s.e, (s.top + 2) * sizeof(Call));
+	}
+	s.top++;
+	s.e[s.top] = call;
 }
 
-void pop(stack &s, int &x, char &a, char &b, char &c){
-    if (s.top==-1) exit(0);
-    memcpy(&x,&s.e[s.top],sizeof(int));
-    memcpy(&a,&s.a[s.top],sizeof(int));
-    memcpy(&b,&s.b[s.top],sizeof(int));
-    memcpy(&c,&s.c[s.top--],sizeof(int));
+void pop(Stack &s, Call &call){
+	if(empty(s))
+		return;
+	call = s.e[s.top];
+	if(s.top == 0){
+		delete []s.e;
+		init(s);
+	} else {
+		s.e = (Call*) realloc(s.e, s.top * sizeof(Call));
+		s.top--;
+	}
 }
 
 void chuyen(int n, char a, char b, char c){
-	stack s;
-	int l, k=1;
-	create(s);
-	push(s, n, a, b, c);
+	Call call = {n,a,b,c}, call_in, call_out;
+	Stack s;
+	init(s);
+	call_in = call;
+	push(s, call_in);
 	while(!empty(s)){
-		pop(s, n, a, b, c);
-		if(n==1){
-			cout<<dem+1<<": "<<a<<" sang "<<c<<endl;
+		pop(s, call_out);
+		if(call_out.n==1){
+			cout<<dem+1<<": "<<call_out.a<<" sang "<<call_out.c<<endl;
 			dem++;
 		}	
 		else{
-			l = n-1;
-			push(s, l, b, a, c);
-			push(s, k, a, b, c);
-			push(s, l, a, c, b);
+			//(n-1, b, a, c)
+			call_in = {call_out.n-1, call_out.b, call_out.a, call_out.c};
+			push(s, call_in);
+			
+			//(1, a, b, c)
+			call_in = call_out;
+			call_in.n = 1;
+			push(s, call_in);
+			
+			//(n-1, a, c, b)
+			call_in = {call_out.n-1, call_out.a, call_out.c, call_out.b};
+			push(s, call_in);
 		}
 	}
 }
