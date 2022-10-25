@@ -13,7 +13,7 @@ void loang(int i, int j){
 		loang(i+1,j);
 	if(a[i][j-1]==a[i][j] && !flag[i][j-1])
 		loang(i,j-1);
-	if(a[i][j+1]==a[i][j] && !flag[i+1][j])
+	if(a[i][j+1]==a[i][j] && !flag[i][j+1])
 		loang(i,j+1);
 }
 
@@ -23,8 +23,7 @@ void show(int n, int m){
 			cout<<flag[i][j]<<" ";
 		}
 		cout<<endl;
-	}
-    	
+	}	
 }
 
 int main(){
@@ -38,16 +37,11 @@ int main(){
     for(int i = 1 ; i <= n ; i++)
     	for(int j = 1 ; j <= m ; j++){
     		if(a[i][j] == 1 && !flag[i][j]) {
-    			loang(i,j);
-    			while(a[i][j+1] == a[i][j]){
-    				j++;
-    				loang(i,j);
-				}	
+    			loang(i,j);	
     			show(n, m);
     			cout<<endl;
     			dem++;
-			}
-				
+			}	
 		}
 	
     cout<<"So mien lien thong: "<<dem;		
