@@ -25,22 +25,28 @@ void quick_sort(int a[], int left, int right){
 	}
 }
 
-bool coin_changing(int *a, int n, int m, int *s, int &j){
-	int i=0;
+bool coin_changing(int *a, int n, int m, int *s, int &j, int step){
+	int q = m, i = step;
 	quick_sort(a,0,n-1);
-	while(m>0 && i<n){
-		if(m-a[i]>=0){
+	while(q>0 && i<n){
+		if(q-a[i]>=0){
 			s[j] = a[i];
-			m = m - a[i];
+			q = q - a[i];
 			j++;	
 		}else{
 			i++;
 		}
 	}
-	if(m==0)
+	if(q==0)
 		return true;
-	else
-		return false;
+	else {
+		if(step == n){
+			return false;
+		} else {
+			j=0;
+			coin_changing(a,n,m,s,j,step+1);
+		}
+	}
 }
 
 int main(){
@@ -50,7 +56,7 @@ int main(){
 	s = new int[m];
 	for(int i=0;i<n;i++)
 		cin>>a[i];
-	if(coin_changing(a,n,m,s,j)){
+	if(coin_changing(a,n,m,s,j,0)){
 		for(int i=0;i<j;i++)
 			cout<<s[i]<<" ";
 	}else{
