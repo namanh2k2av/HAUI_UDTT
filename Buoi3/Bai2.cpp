@@ -2,70 +2,63 @@
 
 using namespace std;
 
-void merge(int *a, int bt1, int w1, int bt2, int w2, int *b){
-	int i = bt1;
-	int j = bt2;
-	int bp1 = bt1+w1-1;
-	int bp2 = bt2+w2-1;
-	int k = bt1;
-	while(i<=bp1 && j<=bp2){
-		if(a[i] < a[j]){ // > giam , < tang
-			b[k] = a[i];
-			i++;
-			k++;
-		} else {
-			b[k] = a[j];
-			j++;
-			k++;
-		}
+void merge(int arr[], int l, int m, int r){
+    int i, j, k;
+    int n1 = m - l + 1;
+    int n2 =  r - m;
+    int L[n1], R[n2];
+    for (i = 0; i < n1; i++){
+    	L[i] = arr[l + i];
+	}  
+    for (j = 0; j < n2; j++){
+    	R[j] = arr[m + 1+ j];
 	}
-	while(i<=bp1){
-		b[k] = a[i];
-		i++;
-		k++;
-	}
-	while(j<=bp2){
-		b[k] = a[j];
-		j++;
-		k++;
-	}
+    i = 0;
+    j = 0; 
+    k = l; 
+    while (i < n1 && j < n2){
+        if (L[i] <= R[j]){ // < tang , > giam
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    while (i < n1){
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2){
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
 }
 
-void merge_pass(int *a, int n, int k, int *b){
-	int cv = n/(2*k);
-	int s = 2*k*cv;
-	int r = n-s;
-	
-	for(int j=1; j<=cv; j++){
-		int b1 = (2*j - 2)*k;
-		merge(a, b1, k, b1+k, k, b);
-	}
-	if(r <= k){
-		for(int j=0; j<r; j++)
-			b[s+j] = a[s+j];
-	} else {
-		merge(a, s, k, s+k, r-k, b);
-	}
-}
-
-void merge_sort(int *a, int n){
-	int k=1;
-	int b[n];
-	while(k<n){
-		merge_pass(a, n, k, b);
-		merge_pass(b, n, 2*k, a);
-		k = k*4;
-	}
+void mergeSort(int a[], int l, int r){
+    if (l < r){
+        int m = l+(r-l)/2;
+        mergeSort(a, l, m);
+        mergeSort(a, m+1, r);
+        merge(a, l, m, r);
+    }
 }
 
 void donuoc(int *a, int n, int k){
 	int dem=0;
 	int i=0;
-	merge_sort(a,n);
-	while(k-a[i]>0){
-		dem++;
-		k-=a[i];
-		i++;
+	mergeSort(a,0,n-1);
+	while(k>0 && i<n){\
+		if(a[i]<=k){
+			dem++;
+			k-=a[i];
+			i++;
+		} else {
+			i++;
+		}
 	}
 	if(dem==0){
 		cout<<"Khong co chai nao day!";
