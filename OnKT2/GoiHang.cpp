@@ -83,7 +83,7 @@ int char_in_string(char k, char a[]){
 }
 
 void Boyer_Moore_Horsepool(){
-	int i=strlen(P), v = strlen(P), j;
+	int i=strlen(P), v = strlen(P);
 	while(i<strlen(T)){
 		int x = v - 1, j = i - 1;
 		while(T[j] == P[x] && x > -1){

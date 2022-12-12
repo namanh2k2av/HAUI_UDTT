@@ -4,9 +4,10 @@
 
 using namespace std;
 
-int a[N+2], L[N+2], vet[N+2];
+float a[N+2];
+int L[N+2], vet[N+2];
 int n = 10;
-vector<int> x;
+vector<float> x;
 
 void algo(){
 	L[0] = 1, L[1] = 2;
@@ -24,7 +25,7 @@ int main(){
 	srand(time(NULL));
 	a[0] = -inf, a[n+1] = inf;
 	for(int i=1;i<=n;i++)
-		a[i] = rand() % 10 + 1;
+		a[i] = float(rand() % 10 + 1)/1.1;
 	for(int i=1;i<=n;i++)
 		cout<<a[i]<<" ";
 	cout<<endl;

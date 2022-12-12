@@ -14,10 +14,10 @@ HocSinh d[7] =
 	{"Nam Anh", 20, 9},
 	{"Duc", 21, 8},
 	{"Nam", 20, 4},
-	{"Hai Anh", 21, 6},
-	{"Nam Anh", 20, 7},
+	{"Hai", 21, 6},
+	{"Nam", 20, 7},
 	{"Nam", 21, 5},
-	{"Bac", 19, 3}
+	{"Anh", 19, 3}
 };
 
 void Output(HocSinh *d, int n){
@@ -33,7 +33,7 @@ int findMax(HocSinh *d, int l, int r){
 		if(d[findMax(d,l,m)].diemTK > d[findMax(d,m+1,r)].diemTK){
 			return findMax(d,l,m);
 		}else{
-			findMax(d,m+1,r);
+			return findMax(d,m+1,r);
 		}
 	}
 }
@@ -42,28 +42,28 @@ char *A;
 char *B;
 int **L;
 
-int algo(int m, int k){
+int algo(int m, int n){
 	for(int i=0; i<=m;i++)
 		L[i][0] = 0;
-	for(int j=0;j<=k;j++)
+	for(int j=0;j<=n;j++)
 		L[0][j] = 0;
 	for(int i=1;i<=m;i++){
-		for(int j=1;j<=k;j++){
+		for(int j=1;j<=n;j++){
 			if(A[i-1] == B[j-1])
 				L[i][j] = L[i-1][j-1] + 1;
 			else
 				L[i][j] = (L[i-1][j] > L[i][j-1]) ? L[i-1][j] : L[i][j-1];
 		}
 	}
-	return L[m][k];
+	return L[m][n];
 }
 
-void xau_con(int m, int k, char *ss){
-	int i=m,j=k,t=0;
+void xau_con(int m, int n, char *ss){
+	int i=m,j=n,k=0;
 	while(L[i][j] != 0){
 		if(A[i-1] == B[j-1]){
-			ss[t] = A[i-1];
-			t++;
+			ss[k] = A[i-1];
+			k++;
 			i--;
 			j--;
 		}else{
@@ -73,11 +73,11 @@ void xau_con(int m, int k, char *ss){
 				j--;
 		}
 	}
-	ss[t] = '\0';
+	ss[k] = '\0';
 	strrev(ss);
 }
 
-char s[100] = {};
+char s[100];
 void z_algo(char *s, int *z){
 	int n = strlen(s), l = 0, r = 0;
 	for(int i=1;i<n;i++){
@@ -88,7 +88,7 @@ void z_algo(char *s, int *z){
 			z[i] = r - l;
 			r--;
 		} else if(z[i-l] < r-i+1)
-			z[i] = z[i-1];
+			z[i] = z[i-l];
 		else{
 			l = i;
 			while(r<n && s[r-l] == s[r]) {
@@ -112,12 +112,12 @@ void InZ(){
 	for(int i=0;i<7;i++){
 		k = d[i].hoTen;
 		strcpy(s,k);
-		strcat(s, " ");
+		strcat(s, "&");
 		strcat(s, p);
-		int z[strlen(s)] = {0};
+		int *z = new int[strlen(s)];
 		z_algo(s,z);
-		for(int i=0;i<strlen(s);i++){
-			if(z[i] == strlen(k)){
+		for(int j=0;j<strlen(s);j++){
+			if(z[j] == strlen(k)){
 				q[i] ++;
 			}
 			if(q[i]>max){
